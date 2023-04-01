@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New project</title>
+    <link th:href="@{/styles/Style.css}" rel="stylesheet" />
+</head>
+<body>
+<header>
+    <a href="#"><h1 id="site_title">MicroManagerPro</h1></a>
+</header>
+<nav class="navigation_area">
+    <section class="navigation_item_vert">
+        <a th:href="@{/projects}" class="navigation_item">Мои проекты</a>
+    </section>
+    <section class="navigation_item_vert">
+        <a th:href="@{/project/new}" class="navigation_item">Новый проект</a>
+    </section>
+</nav>
+<main>
+    <section class="project_overview">
+        <article class="project_overview_item" id="first_overview_item">
+            <h4>ПРОЕКТ</h4>
+            <div><span th:text="${task.getProject().getName()}"></span></div>
+        </article>
+        <article class="project_overview_item">
+            <h4>СТАТУС</h4>
+            <div th:switch="${task.getProject().onTrack}">
+                <span th:case="true" class = "green_text">В срок</span>
+                <span th:case="false" class = "red_text">Отставание</span>
+            </div>
+        </article>
+        <article class="project_overview_item">
+            <h4>СРОК</h4>
+            <div><span th:text="${task.getProject().getDueDate()}"></span></div>
+        </article>
+
+    </section>
+    <section class="form_field">
+        <h2>Добавить новую задачу</h2>
+        <form action="#" th:action="@{/task/add}" th:object="${task}" method="post">
+            <div class="form_item">
+                <label for="task_name">Задача</label>
+                <input type="text" th:field="*{taskName}" name="name" id="task_name" required class="form_input">
+            </div>
+            <div class="form_item">
+                <label for="start_date">Дата начала</label>
+                <input type="date" th:field="*{startDate}" name="date" id="start_date" required class="form_input" >
+            </div>
+            <div class="form_item">
+                <label for="duration">Продолжительность</label>
+                <input type="number" th:field="*{duration}" name="duration" id="duration" required class="form_input" >
+            </div>
+            <div class="form_item">
+                <label for="progress">Прогресс</label>
+                <input type="number" th:field="*{progress}" name="duration" id="progress" class="form_input"  value="0" >
+            </div>
+            <div class="form_item" hidden="hidden">
+                <label for="projectID">Project ID</label>
+                <input type="text" th:field="*{project}" th:value="${task.getProject()}" name="duration" required id="ProjectID" class="form_input" >
+            </div>
+            <div class="form_item">
+                <input type='submit' value='Add new task' class="green_button"/>
+            </div>
+        </form>
+    </section>
+
+</main>
+<footer>
+    <section>
+        <span>&copy; MicroManagerPro, Inc 2023</span>
+        <span class="menu_item"><a href="#">Terms</a></span>
+        <span class="menu_item"><a href="#">Privacy</a></span>
+    </section>
+</footer>
+</body>
+</html>

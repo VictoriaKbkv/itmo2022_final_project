@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Your project</title>
+        <link th:href="@{/styles/Style.css}" rel="stylesheet" />
+        <link th:href="@{/styles/Gantt_Style.css}" rel="stylesheet" />
+        
+    </head>
+    <body>
+        <header>
+            <a href="#"><h1 id="site_title">MicroManagerPro</h1></a>
+        </header>
+        <nav class="navigation_area">
+            <section class="navigation_item_vert">
+                <a th:href="@{/projects}" class="navigation_item">Мои проекты</a>
+            </section>
+            <section class="navigation_item_vert">
+                <a th:href="@{/project/new}" class="navigation_item">Новый проект</a>
+            </section>
+        </nav>
+        <main>
+            <section class="project_overview">
+                <article class="project_overview_item" id="first_overview_item">
+                    <h4>ПРОЕКТ</h4>
+                    <div th:text="${project.name}"></div>
+                </article>
+                <article class="project_overview_item">
+                    <h4>СТАТУС</h4>
+                    <div th:switch="${project.onTrack}">
+                        <span th:case="true" class = "green_text">В срок</span>
+                        <span th:case="false" class = "red_text">Отставание</span>
+                    </div>
+                </article>
+                <article class="project_overview_item">
+                    <h4>НАЧАЛО</h4>
+                    <div id="start_date" th:text="${project.startDate}"></div>
+                </article>
+                <article class="project_overview_item">
+                    <h4 >ОКОНЧАНИЕ</h4>
+                    <div id="finish_date" th:text="${project.finishDate}"></div>
+                </article>
+                <article class="project_overview_item">
+                    <h4>СРОК</h4>
+                    <div th:text="${project.dueDate}"></div>
+                </article>
+                <article class="project_overview_item actions">
+                    <h4 >ДЕЙСТВИЯ</h4>
+                    <a th:href="@{/project/update/{id} (id=${project.projectId})}" id="project_update">ОБНОВИТЬ</a>
+                    <a href="#" id="project_edit">ИЗМЕНИТЬ</a>
+                    <a href="#" id="project_delete">УДАЛИТЬ</a>
+                </article>
+            </section>
+            <section>
+                <a th:href="@{/project/{id}/task/add (id=${project.projectId})}" id="add_button">Добавить</a>
+            </section>
+            <section xmlns="http://www.w3.org/2000/svg" id="gantt_chart">
+                <div class="task_container">
+                    <table class="table_striped">
+                        <thead>
+                        <tr>
+                            <th scope="col" class = "col_actions"></th>
+                            <th scope="col" class = "col_task">Задача</th>
+                            <th scope="col" class = "col_date">Начало</th>
+                            <th scope="col" class = "col_date">Окончание</th>
+                            <th scope="col" class = "col_days">Дни</th>
+                            <th scope="col" class = "col_days">Прог, %</th>
+                            <th scope="col" class = "col_days">Запас</th>
+                            <th scope="col" class = "col_links"></th>
+                            <th scope="col" class = "col_days class_hidden">Critical</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each = "task:${project.projectTasks}">
+                            <td scope="col">
+                                <span><a th:href="@{/task/delete/{id}/project/{project_id} (id=${task.taskId}, project_id=${task.project.projectId})}" class="delete_button"><b>X</b></a></span>
+                            </td>
+                            <td th:text="${task.taskName}"></td>
+                            <td th:text="${task.startDate}"></td>
+                            <td th:text="${task.endDate}"></td>
+                            <td th:text="${task.duration}"></td>
+                            <td th:text="${task.progress}"></td>
+                            <td th:text="${task.slack}"></td>
+                            <td scope="col"><a th:href="@{/task/edit-links/{id} (id=${task.taskId})}" class="edit_button">▼</a></td>
+                            <td th:text="${task.critical}" class = "class_hidden"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class ="gantt_container">
+                    <svg width="0" height="0" class="gantt_area" id="svg_gantt_area">
+                        <g id="gantt_rows">
+                            <rect x="0" y="0" width="0" height="60" class="grid_row_even" id="rows_header"></rect>
+
+                        </g>
+                        <g id="lines">
+
+                        </g>
+                        <g id="days">
+
+                        </g>
+                        <g id="months">
+
+                        </g>
+                        <g id = "gantt_tasks">
+
+                        </g>
+                        <g id = "gantt_tasks_progress">
+
+                        </g>
+                    </svg>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <section>
+                <span>&copy; MicroManagerPro, Inc 2023</span>
+                <span class="menu_item"><a href="#">Terms</a></span>
+                <span class="menu_item"><a href="#">Privacy</a></span>
+            </section>
+        </footer>
+        <script type="text/javascript" th:src="@{/js/Gantt_Script_upd.js}"></script>
+        <script type="text/javascript" th:src="@{/js/jquery-3.6.3.js}"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+    </body>
+</html>

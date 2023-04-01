@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in to MicroManagerPro</title>
+    <link th:href="@{/styles/Style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<header>
+    <a href="#"><h1 id="site_title">MicroManagerPro</h1></a>
+</header>
+<main>
+    <section class="line_before_form">
+        <span>Новый пользователь?</span>
+        <span><a th:href="@{/signup}">Регистрация</a></span>
+    </section>
+    <section class="form_field">
+        <h2>Вход</h2>
+        <form action="#" th:action="@{/login}" method="post">
+            <div class="form_item">
+                <label for="username">Логин</label>
+                <input type="text" name="username" id="username" required class="form_input">
+            </div>
+            <div class="form_item">
+                <label for="user_password">Пароль</label>
+                <input type="password" name="password" id="user_password" required class="form_input">
+            </div>
+            <div class="form_item">
+                <input type='submit' value='Вход' class="green_button"/>
+            </div>
+        </form>
+    </section>
+</main>
+<footer>
+    <section>
+        <span>&copy; MicroManagerPro, Inc 2023</span>
+        <span class="menu_item"><a href="#">Terms</a></span>
+        <span class="menu_item"><a href="#">Privacy</a></span>
+    </section>
+</footer>
+</body>
+</html>

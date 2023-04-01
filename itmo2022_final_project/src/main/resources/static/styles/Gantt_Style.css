@@ -1,0 +1,93 @@
+#gantt_chart {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding-left: 5px;
+
+}
+
+.task_container {
+    float: left;
+    height: 450px;
+    width: 660px;
+    
+}
+
+
+.task_header {
+    display: inline-block;
+    height: 60px;
+    width: 100%;
+    background:  rgb(244, 245, 246);
+}
+
+.task {
+    display: inline-block;
+    height: 40px;
+    width: 100%;
+}
+
+.task_desc{
+    display: inline-block;
+    border: none;
+    width: 100%;
+    height: 95%;
+    font-size: 14px;
+}
+
+.task_desc:focus {
+    background: rgba(90, 169, 230, .2);
+    outline: none;
+}
+
+.odd {
+    background:  rgb(255, 251, 254);
+}
+
+.even {
+    background: rgb(244, 245, 246);
+}
+
+.gantt_container {
+    overflow-x: scroll;
+}
+
+.grid_row_odd {
+    fill: rgb(255, 251, 254);
+}
+
+.grid_row_even {
+    fill: rgb(244, 245, 246);
+}
+
+.grid_line {
+    stroke: rgb(226, 230, 233);
+}
+
+.grid_header_months {
+    font-weight: bold;
+}
+
+.rect_task {
+    fill: rgba(6, 214, 160);
+    
+}
+
+.rect_task_critical {
+    fill: rgb(215, 38, 61);
+    
+}
+
+.progress {
+    fill:rgba(90, 169, 230, 0.8);
+    
+}
+
+.rect_task_invisible_edge {
+    fill: transparent;
+    cursor: ew-resize;
+}
+
+/* .rect_task_invisible_drag {
+    fill: red;
+    cursor: move;
+} */

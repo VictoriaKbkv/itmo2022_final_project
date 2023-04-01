@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your project</title>
+  <link th:href="@{/styles/Style.css}" rel="stylesheet" />
+  <link th:href="@{/styles/Gantt_Style.css}" rel="stylesheet" />
+
+</head>
+<body>
+<header>
+  <a href="#"><h1 id="site_title">MicroManagerPro</h1></a>
+</header>
+<nav class="navigation_area">
+  <section class="navigation_item_vert">
+    <a th:href="@{/projects}" class="navigation_item">Мои проекты</a>
+  </section>
+  <section class="navigation_item_vert">
+    <a th:href="@{/project/new}" class="navigation_item">Новый проект</a>
+  </section>
+  </section>
+</nav>
+<main>
+  <section class="project_overview">
+    <article class="project_overview_item" id="first_overview_item">
+      <h4>Проект</h4>
+      <div><a th:href="@{/project/edit/{id} (id=${task.getProject().getProjectId()})}" ><span th:text="${task.project.getName()}"></span></a></div>
+    </article>
+  </section>
+  <section class="form_field_left">
+    <form action="#" th:action="@{/task/edit/{id} (id=${task.taskId})}" th:object="${task}" method="post">
+      <div>
+        <label for="task_name">Задача</label>
+        <input type="text" th:field="*{taskName}" th:value="*{taskName}" name="name" id="task_name" required class="form_input">
+      </div>
+      <div class="form_item_left_small">
+        <label for="start_date">Дата начала</label>
+        <input type="date" th:field="*{startDate}" th:value="*{startDate}" name="date" id="start_date" required class="form_input" >
+      </div>
+      <div class="form_item_left_small">
+        <label for="duration">Длительность</label>
+        <input type="number" th:field="*{duration}" th:value="*{duration}" name="duration" id="duration" required class="form_input" >
+      </div>
+      <div class="form_item_left_small">
+        <label for="progress">Прогресс</label>
+        <input type="number" th:field="*{progress}" th:value="*{progress}" name="duration" id="progress" required class="form_input" >
+      </div>
+      <div class="form_button">
+        <input type='submit' value='Обновить' class="green_button"/>
+      </div>
+    </form>
+  </section>
+  <div></div>
+  <section class="form_field_left_big">
+    <form action="#" th:action="@{/task/{id}/link/add/ (id=${task.taskId})}" th:object="${task}" method="post">
+      <div class="form_item">
+        <label >Возможные задачи-предшественники</label>
+        <div class="form_item_left_medium">
+          <select th:field="*{taskName}" class="form_input">
+            <option th:each="t:${listTasks}" th:value="${t.taskName}" th:text="${t.taskName}">
+          </select>
+        </div>
+        <div class="form_item_left_smallest">
+          <input type='submit' value='Добавить' class="green_button"/>
+        </div>
+      </div>
+    </form>
+  </section>
+  <section xmlns="http://www.w3.org/2000/svg" id="gantt_chart">
+    <div class="task_container">
+      <table class="table_striped">
+        <thead>
+        <tr>
+          <th scope="col" class = "col_actions">Actions</th>
+          <th scope="col" class = "col_task">Predecessors</th>
+          <th scope="col" class = "col_date">Start Date</th>
+          <th scope="col" class = "col_date">End Date</th>
+          <th scope="col" class = "col_days">Days</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each = "link:${task.predecessors}">
+          <td scope="col">
+            <span><a th:href="@{/task/{id}/delete-link/{del_id} (id=${task.taskId}, del_id=${link.taskId})}" class="delete_button"><b>X</b></a></span>
+          </td>
+          <td th:text="${link.taskName}"></td>
+          <td th:text="${link.startDate}"></td>
+          <td th:text="${link.endDate}"></td>
+          <td th:text="${link.duration}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+</main>
+<footer>
+  <section>
+    <span>&copy; MicroManagerPro, Inc 2023</span>
+    <span class="menu_item"><a href="#">Terms</a></span>
+    <span class="menu_item"><a href="#">Privacy</a></span>
+  </section>
+</footer>
+<script src="./Script/jquery-3.6.3.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+<script src="./Script/Gantt_Script.js"></script>
+</body>
+</html>
